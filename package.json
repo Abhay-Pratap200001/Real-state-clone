@@ -1,0 +1,35 @@
+{
+  "name": "rs",
+  "version": "1.0.0",
+  "description": "Building a real estate mern stack project",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon api/index.js",
+    "start": "node api/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Abhay-Pratap200001/Real-state-clone.git"
+  },
+  "keywords": [
+    "MERN",
+    "J.S",
+    "NODE.JS",
+    "EXPRESS.JS"
+  ],
+  "author": "Abhay Pratap",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Abhay-Pratap200001/Real-state-clone/issues"
+  },
+  "homepage": "https://github.com/Abhay-Pratap200001/Real-state-clone#readme",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "mongoose": "^9.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
