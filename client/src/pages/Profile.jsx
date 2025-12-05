@@ -16,9 +16,22 @@ import {
 } from "../redux/user/userSlice";
 
 const Profile = () => {
+  // for check current user and error loading 
   const { currentUser, loading, error } = useSelector((state) => state.user);
+
+  // handle form data
   const [formData, setFormData] = useState({});
+
+  // show update success text 
   const [updateSuccess, setUpdateSuccess] = useState(false);
+
+  //  track error while getting listings
+  const [showListingsError, setShowListingsError] = useState(false)
+
+  // store listings response come from db
+  const [userListings, setUserListings] = useState([])
+
+
   const dispatch = useDispatch();
 
   const handleChange = (e) => {
@@ -32,7 +45,7 @@ const Profile = () => {
     try {
       dispatch(updateUserStart());
       const res = await fetch(`/api/user/update/${currentUser._id}`, {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -90,6 +103,44 @@ const Profile = () => {
        toast.success("User signOut successfully")
     } catch (error) {
       dispatch(signOutUserFailure(data.message));
+    }
+  };
+
+
+  // Show all current user listing 
+  const handleShowListings = async() => {
+    try {
+      setShowListingsError(false)
+      const res = await fetch(`/api/user/listings/${currentUser._id}`)
+      const data = await res.json()
+      if (data.success === false) {
+        setShowListingsError(true)
+      }
+      setUserListings(data)
+    } catch (error) {
+      setShowListingsError(true)
+    }
+  }
+
+
+//delete current user listing 
+  const handleListingDelete = async(listingId) => {
+     try {
+      const res = await fetch(`/api/listing/delete/${listingId}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+        return;
+      }
+
+      setUserListings((prev) =>
+        prev.filter((listing) => listing._id !== listingId)
+      );
+      
+    } catch (error) {
+      console.log(error.message);
     }
   };
 
@@ -154,8 +205,49 @@ const Profile = () => {
       <p className="text-green-700 mt-5">
         {updateSuccess ? "User is updated successfully!" : ""}
       </p>
+      <button onClick={handleShowListings} className="text-green-700 w-full">Show Listings</button>
+      <p className="text-red-700 mt-5">{showListingsError ? "Error on showing listings" : ""}</p>
+       {userListings && userListings.length > 0 && (
+        <div className='flex flex-col gap-4'>
+          <h1 className='text-center mt-7 text-2xl font-semibold'>
+            Your Listings
+          </h1>
+          {userListings.map((listing) => (
+            <div
+              key={listing._id}
+              className='border rounded-lg p-3 flex justify-between items-center gap-4'
+            >
+              <Link to={`/listing/${listing._id}`}>
+                <img
+                  src={listing.imageUrls[0]}
+                  alt='listing cover'
+                  className='h-16 w-16 object-contain'
+                />
+              </Link>
+              <Link
+                className='text-slate-700 font-semibold  hover:underline truncate flex-1'
+                to={`/listing/${listing._id}`}
+              >
+                <p>{listing.name}</p>
+              </Link>
+
+              <div className='flex flex-col item-center'>
+                <button
+                  onClick={(e) => handleListingDelete(listing._id)}
+                  className='text-red-700 uppercase'
+                >
+                  Delete
+                </button>
+                <Link to={`/update-listing/${listing._id}`}>
+                  <button className='text-green-700 uppercase'>Edit</button>
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
-};
+}
 
 export default Profile;
