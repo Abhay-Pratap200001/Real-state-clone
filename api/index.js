@@ -1,10 +1,13 @@
 import express from "express"
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser"
+import fileUpload from "express-fileupload";
+
 
 import { connectDB } from "./config/db.connection.js";
 import userRouter from "./routes/user.route.js"
-import authRouter from './routes/auth.routes.js'
+import authRouter from './routes/auth.route.js'
+import listingRouter from './routes/listing.route.js'
 import { errorHandler } from "./middleware/error.middleware,.js";
 
 dotenv.config();
@@ -13,11 +16,18 @@ const app = express();
 
 
 app.use(express.json())
+app.use(
+  fileUpload({
+    useTempFiles: true,
+    tempFileDir: "/tmp/",
+  })
+);
 app.use(cookieParser())
 
 
 app.use("/api/user", userRouter)
 app.use("/api/auth", authRouter)
+app.use("/api/listing", listingRouter)
 
 
 app.use(errorHandler);
