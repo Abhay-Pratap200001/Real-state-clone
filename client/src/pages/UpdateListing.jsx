@@ -47,9 +47,7 @@ const UpdateListing = () => {
         const res = await fetch(`/api/listing/get/${listingId}`)
         const data = await res.json()
         if (data.success === false) return
-        setFormData(data)
-        console.log(listingId);
-        
+        setFormData(data)        
     }
     fetchListing()
   },[])
@@ -99,6 +97,7 @@ const UpdateListing = () => {
     // Filter out the selected URL
     setImageUrls((prev) => prev.filter((img) => img !== url));
   };
+
 
   const handleChange = (e) => {
     if (e.target.id === "sale" || e.target.id === "rent") {
