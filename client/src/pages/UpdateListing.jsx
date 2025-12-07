@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
+import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -47,7 +48,8 @@ const UpdateListing = () => {
         const res = await fetch(`/api/listing/get/${listingId}`)
         const data = await res.json()
         if (data.success === false) return
-        setFormData(data)        
+        setFormData(data) 
+        setImageUrls(data.imageUrls || []);       
     }
     fetchListing()
   },[])
@@ -93,10 +95,16 @@ const UpdateListing = () => {
 
   // DELETE IMAGE FROM PREVIEW + STATE
   // --------------------------------------------------------
-  const handleDeleteImage = (url) => {
-    // Filter out the selected URL
-    setImageUrls((prev) => prev.filter((img) => img !== url));
-  };
+ const handleDeleteImage = (url) => {
+  // filter the image to delete
+  const updated = imageUrls.filter((img) => img !== url);
+
+  // update states
+  setImageUrls(updated);
+  setFormData((prev) => ({ ...prev, imageUrls: updated,}));
+  toast.success("Image removed success fully")
+};
+
 
 
   const handleChange = (e) => {
@@ -165,6 +173,8 @@ const UpdateListing = () => {
     if (data.success === false) {
       return setError(data.message);
     }
+
+    toast.success("List Updated successfully")
 
     // REDIRECT TO THE NEW LISTING PAGE
     Navigate(`/listing/${data._id}`);

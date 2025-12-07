@@ -11,10 +11,13 @@ import CreateListing from './pages/CreateListing';
 import UpdateListing from './pages/UpdateListing';
 import Listing from './pages/Listing'
 import Search from './pages/Search';
+import SmoothScroll from './Animation/SmoothScroll';
+
 
 
 const App = () => {
   return <BrowserRouter>
+  <SmoothScroll>
   <Header/>
   <Toaster/>
   <Routes>
@@ -22,7 +25,7 @@ const App = () => {
     <Route path='/sign-in' element={<SignIn/>}/>
     <Route path='/sign-up' element={<SignUp/>}/>
     <Route path='/about' element={<About/>}/>
-    <Route path='/listing/:listingId' element={<Listing/>}/>
+    <Route path='/listing/:listingId' element={<Listing/>}/>  {/* accepting listing bases of listing._id */}
     <Route path='/search' element={<Search/>}/>
 
 
@@ -30,13 +33,14 @@ const App = () => {
   <Route element={<PrivateRoute/>}>
     <Route path='/profile' element={<Profile/>}/>
     <Route path='/create-listing' element={<CreateListing/>}/>
-    <Route path='/update-listing/:listingId' element={<UpdateListing/>}/>
+    <Route path='/update-listing/:listingId' element={<UpdateListing/>}/> 
   </Route>
   {/* protected route */}
 
 
   </Routes>
-  </BrowserRouter>
+</SmoothScroll>
+</BrowserRouter>
 }
 
 export default App

@@ -1,4 +1,4 @@
-//---------------------------------------- For Specific Listing ------------------------------------------- //
+//---------------------------------------- For Specific Listing details------------------------------------------- //
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -155,7 +155,7 @@ const Listing = () => {
 
               {listing.offer && (
                 <p className="bg-green-900 w-full max-w-[200px] text-white text-center p-1 rounded-md">
-                  ${+listing.regularPrice - +listing.discountPrice}
+                  ${+listing.regularPrice - +listing.discountPrice} % discountt
                 </p>
               )}
             </div>

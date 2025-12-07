@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -55,7 +56,7 @@ const CreateListing = () => {
         method: "POST",
         body: formData,
       });
-
+      toast.success("Image uploaded successfully")
       // Convert response to JSON
       const data = await uploadRes.json();
 
@@ -71,8 +72,6 @@ const CreateListing = () => {
     ...prev,
     imageUrls: [...prev.imageUrls, ...uploadedUrls],
   }));
-
-    console.log("Uploaded Images:", uploadedUrls);
   };
 
 
@@ -81,6 +80,7 @@ const CreateListing = () => {
   const handleDeleteImage = (url) => {
     // Filter out the selected URL
     setImageUrls((prev) => prev.filter((img) => img !== url));
+    toast.success("Image removed success fully")
   };
 
   const handleChange = (e) => {
@@ -149,6 +149,8 @@ const CreateListing = () => {
     if (data.success === false) {
       return setError(data.message);
     }
+
+    toast.success("List Create Successfully")
 
     // REDIRECT TO THE NEW LISTING PAGE
     Navigate(`/listing/${data._id}`);

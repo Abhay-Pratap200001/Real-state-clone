@@ -83,60 +83,40 @@ export const getListing = async(req, res, next) => {
 }
 
 
-
-
-
-// GET MULTIPLE LISTINGS WITH FILTERS
 export const getListings = async (req, res, next) => {
   try {
-    // Pagination values
     const limit = parseInt(req.query.limit) || 9;
     const startIndex = parseInt(req.query.startIndex) || 0;
 
-    // OFFER FILTER
-    let offer = req.query.offer;
-    if (offer === "undefined" || offer === "false") {
-      offer = { $in: [false, true] }; // show all
-    }
+    // OFFER
+    const offer = req.query.offer === "true" ? true : { $in: [true, false] };
 
-    // FURNISHED FILTER
-    let furnished = req.query.furnished;
-    if (furnished === "undefined" || furnished === "false") {
-      furnished = { $in: [false, true] };
-    }
+    // FURNISHED
+    const furnished = req.query.furnished === "true" ? true : { $in: [true, false] };
 
-    // PARKING FILTER
-    let parking = req.query.parking;
-    if (parking === "undefined" || parking === "false") {
-      parking = { $in: [false, true] };
-    }
+    // PARKING
+    const parking = req.query.parking === "true" ? true : { $in: [true, false] };
 
-    // TYPE FILTER (rent/sale)
-    let type = req.query.type;
-    if (type === "undefined" || type === "false") {
-      type = { $in: [false, true] };
-    }
+    // TYPE (rent / sale / all)
+     let type = req.query.type;
+       if (!type || type === "all") {
+        type = { $in: ["rent", "sale"] };
+      }
 
-    // SEARCH, SORT, ORDER
+
     const searchTerm = req.query.searchTerm || "";
     const sort = req.query.sort || "createdAt";
-    const order = req.query.order || "desc";
+    const order = req.query.order === "asc" ? 1 : -1;
 
-    // Fetch filtered listings
-    const listing = await Listing.find({
+    const listings = await Listing.find({
       name: { $regex: searchTerm, $options: "i" },
-      offer,
-      furnished,
-      parking,
-      type,
-    })
-      .sort({ [sort]: order }) // sort by date or price
-      .limit(limit) // pagination size
-      .skip(startIndex); // pagination starting point
+      offer,furnished, parking, type,})
+      .sort({ [sort]: order })
+      .limit(limit)
+      .skip(startIndex);
 
-    // Fixed variable name
-    return res.status(200).json(listing);
+    res.status(200).json(listings);
   } catch (error) {
-    return next(new ApiError(500, "Internal server error"));
+    next(new ApiError(500, "Internal server error"));
   }
 };
