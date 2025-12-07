@@ -2,6 +2,7 @@ import express from "express"
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser"
 import fileUpload from "express-fileupload";
+import path from 'path';
 
 
 import { connectDB } from "./config/db.connection.js";
@@ -11,16 +12,14 @@ import listingRouter from './routes/listing.route.js'
 import { errorHandler } from "./middleware/error.middleware,.js";
 
 dotenv.config();
+
+const __dirname = path.resolve();
 const PORT = process.env.PORT || 5000;
 const app = express();
 
 
 app.use(express.json())
-app.use(
-  fileUpload({
-    useTempFiles: true,
-    tempFileDir: "/tmp/",
-  })
+app.use(fileUpload({useTempFiles: true, tempFileDir: "/tmp/"})
 );
 app.use(cookieParser())
 
@@ -29,6 +28,12 @@ app.use("/api/user", userRouter)
 app.use("/api/auth", authRouter)
 app.use("/api/listing", listingRouter)
 
+
+app.use(express.static(path.join(__dirname, 'client/dist')))
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'))
+})
 
 app.use(errorHandler);
 
