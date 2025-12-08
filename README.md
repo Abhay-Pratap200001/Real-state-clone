@@ -197,17 +197,43 @@ Frontend → http://localhost:5173
 
 Backend → http://localhost:7000
 
-📸 Screenshots (Optional but Recommended)
-Add a folder named screenshots and include:
+📸 Screenshots folder named 
 
-md
-Copy code
-![Home](./screenshots/home.png)
-![Listing](./screenshots/listing.png)
-![Profile](./screenshots/profile.png)
+Pages/Home.jsx
+<img width="1899" height="789" alt="image" src="https://github.com/user-attachments/assets/c6776e42-dd4f-48fb-a094-d71d718cd9be" />
+
+
+Pages/About.jsx
+<img width="936" height="928" alt="image" src="https://github.com/user-attachments/assets/bd0fbf8f-a93d-43b9-ac41-75846f439442" />
+
+
+Pages/SigIn.jsx
+<img width="958" height="929" alt="image" src="https://github.com/user-attachments/assets/a36751f8-5461-4704-93c4-7096081f693b" />
+
+
+Pages/SigUp.jsx
+<img width="957" height="931" alt="image" src="https://github.com/user-attachments/assets/fb5f86cd-1280-42ab-84eb-ef6325041461" />
+
+
+Pages/CreateListing.jsx
+<img width="956" height="928" alt="image" src="https://github.com/user-attachments/assets/44681ea0-4015-47ce-bc39-87854e590a97" />
+
+
+Pages/UpdateListin.jsx
+<img width="957" height="929" alt="image" src="https://github.com/user-attachments/assets/2501505b-0fe4-497f-8aab-ce7aa74d5e73" />
+
+
+Pages/Search.jsx
+<img width="934" height="900" alt="image" src="https://github.com/user-attachments/assets/3d96574b-6030-410e-b045-9da106b4d4a3" />
+
+
+Pages/Listing
+<img width="941" height="929" alt="image" src="https://github.com/user-attachments/assets/d3e3a314-41a7-4acd-8356-301ba029169d" />
+
 👨‍💻 Developer
 Abhay Verma
 MERN Stack Developer
 
 🌟 Support
 If you like this project, don’t forget to star ⭐ the repo and share it!
+
